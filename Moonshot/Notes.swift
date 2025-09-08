@@ -36,6 +36,38 @@ struct ContainerRelativeFrameDemo: View {
     }
 }
 
+
+
+
+struct CustomText: View {
+    let text: String
+    
+    var body: some View {
+        Text(text)
+    }
+    
+    init(text: String) {
+        print("Creating CustomText: \(text)") // this will be printed twice per view because SwiftUI doesn't build this CustomText struct just once, but rebuild multiple times to: calculate layout, handle scrolling etc. In this case, it printed the first time when SwiftUI builds the view tree to measure/layout and second time, when SwiftUI builds again for actual rendering (Or for similar reasons).
+        self.text = text
+    }
+}
+
+struct ScrollViewDemo: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 10) { // When VStack is used, SwiftUI won’t wait until you scroll down to see them, it will just create all the views immediately. SOLUTION: LazyVStack and LazyHStack. These can be used in exactly the same way as regular stacks but will load their content on-demand – they won’t create views until they are actually shown, which minimizes the amount of system resources being used.
+                ForEach(0 ..< 100) {
+                    CustomText(text: "Item \($0)")
+                }
+            }
+            .frame(maxWidth: .infinity) // not needed when LazyVStack is used.
+        }
+    }
+    
+    // DIFFERENCE between Regular and Lazy stacks?
+    // Lazy stacks always take up as much as room as is available in our layouts, whereas Regular stacks take up only as much space as is needed. This is intentional, because it stops lazy stacks having to adjust their size if a new view is loaded that wants more space than previously loaded view.
+}
+
 #Preview {
-    ContainerRelativeFrameDemo()
+    ScrollViewDemo()
 }
