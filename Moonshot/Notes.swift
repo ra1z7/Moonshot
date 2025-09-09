@@ -68,6 +68,53 @@ struct ScrollViewDemo: View {
     // Lazy stacks always take up as much as room as is available in our layouts, whereas Regular stacks take up only as much space as is needed. This is intentional, because it stops lazy stacks having to adjust their size if a new view is loaded that wants more space than previously loaded view.
 }
 
+
+
+
+struct NavigationLinkDemo1: View {
+    var body: some View {
+        NavigationStack {
+            NavigationLink("Show Details") {
+                Text("Detail View") // Destination View Here
+            }
+            .navigationTitle("Home")
+        }
+    }
+}
+
+struct NavigationLinkDemo2: View {
+    var body: some View {
+        NavigationStack {
+            NavigationLink {
+                Text("Detail View")
+            } label: { // Custom Label
+                VStack {
+                    Text("This is")
+                    Text("Custom Label")
+                    Image(systemName: "face.smiling")
+                }
+                .font(.title)
+                
+            }
+            .navigationTitle("Home")
+        }
+    }
+}
+
+struct NavigationLinkDemo3: View {
+    var body: some View {
+        NavigationStack {
+            // Using NavigationLink with List is most common
+            List(0 ..< 20) { rowNumber in
+                NavigationLink("Row \(rowNumber)") {
+                    Text("Detail View for Row \(rowNumber)")
+                }
+            }
+            .navigationTitle("NavLink with List")
+        }
+    }
+}
+
 #Preview {
-    ScrollViewDemo()
+    NavigationLinkDemo3()
 }
