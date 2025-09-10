@@ -150,6 +150,40 @@ struct HierarchicalCodableData: View {
 //     You didn’t manually extract "name" or "address".
 //     Codable + JSONDecoder did all the work because the struct hierarchy matched the JSON hierarchy.
 
+
+
+
+// SwiftUI’s List view is a great way to show scrolling rows of data, but sometimes you also want columns of data – a grid of information, that is able to adapt to show more data on larger screens.
+struct LazyGridDemo: View {
+    let fixedColumnLayout = [ // we need to define the rows or columns we want – we only define one of the two, depending on which kind of grid we want, LazyHGrid for showing horizontal data, and LazyVGrid for showing vertical data.
+        GridItem(.fixed(100)),
+        GridItem(.fixed(100)),
+        GridItem(.fixed(100))
+    ] //  we want our data laid out in 3 columns, exactly 100 points wide
+    
+    let adaptiveColumnLayout = [
+        GridItem(.adaptive(minimum: 80, maximum: 100))
+    ] // tells SwiftUI we’re happy to fit in as many columns as possible, as long as they are at least 90 points and at most 100 points in width - Try in landscape mode to see
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: adaptiveColumnLayout, spacing: 20) {
+                ForEach(0..<1000) {
+                    Text("Item \($0)")
+                }
+            }
+        }
+    }
+    // Content scrolls
+    // - left to right in LazyHGrid
+    // - top to bottom in LazyVGrid
+    
+    // GridItem defines the size/behavior of each column or row:
+    //    .fixed(x) -> always x points wide/tall.
+    //    .adaptive(minimum, maximum?) -> fit as many as possible.
+    //    .flexible(minimum, maximum?) -> expand to fill available space.
+}
+
 #Preview {
-    HierarchicalCodableData()
+    LazyGridDemo()
 }
