@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    let astronauts = Bundle.main.decode("astronauts.json")
+    let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
+    let missions: [Mission] = Bundle.main.decode("missions.json")
+    // Notice the type annotations (: [String: Astronaut], : [Mission]). That’s how Swift knows what T should be in each call.
     
     var body: some View {
         Text(String(astronauts.count))
+        Text(String(missions.count))
     }
 }
 

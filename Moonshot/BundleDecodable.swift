@@ -8,7 +8,7 @@
 import Foundation
 
 extension Bundle {
-    func decode(_ fileName: String) -> [String: Astronaut] {
+    func decode<T: Decodable>(_ fileName: String) -> T {
         guard let fileURL =  self.url(forResource: fileName, withExtension: nil) else {
             fatalError("Failed to locate \(fileName) in bundle.")
         }
@@ -26,7 +26,7 @@ extension Bundle {
         
         // Instead of just doing a generic catch, this code checks for specific decoding errors from Swift’s DecodingError enum:
         do {
-            let decodedData = try JSONDecoder().decode([String: Astronaut].self, from: loadedData)
+            let decodedData = try JSONDecoder().decode(T.self, from: loadedData)
             return decodedData
         } catch DecodingError.keyNotFound(let key, let context) { // Example: JSON doesn’t contain "name" but the Astronaut struct expects it.
             fatalError("Failed to decode \(fileName) from bundle due to missing key '\(key.stringValue)' - \(context.debugDescription)")
