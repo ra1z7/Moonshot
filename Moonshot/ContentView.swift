@@ -12,9 +12,52 @@ struct ContentView: View {
     let missions: [Mission] = Bundle.main.decode("missions.json")
     // Notice the type annotations (: [String: Astronaut], : [Mission]). That’s how Swift knows what T should be in each call.
     
+    let adaptiveColumnsLayout = [
+        GridItem(.adaptive(minimum: 150))
+    ]
+    
     var body: some View {
-        Text(String(astronauts.count))
-        Text(String(missions.count))
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: adaptiveColumnsLayout) {
+                    ForEach(missions) { mission in
+                        NavigationLink {
+                            Text("Detail View")
+                        } label: {
+                            VStack {
+                                Image(mission.imageName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 100, height: 100)
+                                    .padding()
+                                    .shadow(color: .white.opacity(0.3), radius: 15)
+                                
+                                VStack {
+                                    Text(mission.displayName)
+                                        .font(.headline)
+                                        .foregroundStyle(.white)
+                                    Text(mission.formattedLaunchDate)
+                                        .font(.caption)
+                                        .foregroundStyle(.white.opacity(0.5))
+                                }
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(.lightBackground)
+                            }
+                            .clipShape(.rect(cornerRadius: 15))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(.lightBackground)
+                            }
+                        }
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Moonshot")
+            .background(.darkBackground)
+            .preferredColorScheme(.dark)
+        }
     }
 }
 

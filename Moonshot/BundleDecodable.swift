@@ -26,7 +26,13 @@ extension Bundle {
         
         // Instead of just doing a generic catch, this code checks for specific decoding errors from Swift’s DecodingError enum:
         do {
-            let decodedData = try JSONDecoder().decode(T.self, from: loadedData)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "y-MM-dd"
+            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(formatter)
+            
+            let decodedData = try decoder.decode(T.self, from: loadedData)
             return decodedData
         } catch DecodingError.keyNotFound(let key, let context) { // Example: JSON doesn’t contain "name" but the Astronaut struct expects it.
             fatalError("Failed to decode \(fileName) from bundle due to missing key '\(key.stringValue)' - \(context.debugDescription)")

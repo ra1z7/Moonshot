@@ -14,7 +14,19 @@ struct Mission: Codable, Identifiable {
     }
     
     let id: Int
-    let launchDate: String? // if we mark a property as optional, Codable will automatically skip over it if the value is missing from our input JSON.
+    let launchDate: Date? // if we mark a property as optional, Codable will automatically skip over it if the value is missing from our input JSON.
     let crew: [CrewRole]
     let description: String
+    
+    var displayName: String {
+        "Apollo \(id)"
+    }
+    
+    var imageName: String {
+        "apollo\(id)"
+    }
+    
+    var formattedLaunchDate: String {
+        launchDate?.formatted(date: .abbreviated, time: .omitted) ?? "N/A"
+    }
 }
