@@ -38,10 +38,7 @@ struct MissionView: View {
                 .padding(.top)
                 
 //                Divider() // not customizable, so custom divider:
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundStyle(.lightBackground)
-                    .padding(.vertical)
+                CustomDivider()
                 
                 VStack(alignment: .leading) {
                     Text("Mission Highlights")
@@ -50,10 +47,7 @@ struct MissionView: View {
                     
                     Text(mission.description)
                     
-                    Rectangle()
-                        .frame(height: 2)
-                        .foregroundStyle(.lightBackground)
-                        .padding(.vertical)
+                    CustomDivider()
                     
                     Text("Crew Members")
                         .font(.title.bold())
@@ -61,37 +55,7 @@ struct MissionView: View {
             }
             .padding()
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(crew, id: \.role) { member in
-                        NavigationLink {
-                            AstronautView(astronaut: member.astronaut)
-                        } label: {
-                            HStack {
-                                Image(member.astronaut.id)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 104, height: 72)
-                                    .clipShape(.capsule)
-                                    .overlay {
-                                        Capsule()
-//                                            .strokeBorder(.white, lineWidth: 1) // draws stroke fully inside capsule's edge
-                                            .stroke(.white, lineWidth: 1) // draws stroke centered on capsule's edge - half the line width is inside, half is outside the capsule’s boundary.
-                                    }
-                                
-                                VStack(alignment: .leading) {
-                                    Text(member.astronaut.name)
-                                        .font(.headline)
-                                        .foregroundStyle(.white)
-                                    Text(member.role)
-                                        .foregroundStyle(.white.opacity(0.5))
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
-                }
-            }
+            CrewMembersScrollView(crew: crew)
         }
         .navigationTitle(mission.displayName)
         .navigationBarTitleDisplayMode(.inline)
