@@ -29,6 +29,14 @@ struct MissionView: View {
                     .shadow(color: .white.opacity(0.3), radius: 15)
                     .padding(.vertical)
                 
+                HStack(alignment: .firstTextBaseline, spacing: 15) {
+                    Image(systemName: "calendar.badge.checkmark")
+                    Text(mission.formattedLaunchDate)
+                }
+                .font(.headline.monospaced())
+                .foregroundStyle(.white.opacity(0.5))
+                .padding(.top)
+                
 //                Divider() // not customizable, so custom divider:
                 Rectangle()
                     .frame(height: 2)
@@ -107,6 +115,6 @@ struct MissionView: View {
     let missions: [Mission] = Bundle.main.decode("missions.json")
     let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
 
-    return MissionView(mission: missions[0], astronauts: astronauts)
+    return MissionView(mission: missions[1], astronauts: astronauts)
         .preferredColorScheme(.dark)
 }
