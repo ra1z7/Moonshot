@@ -28,6 +28,9 @@ struct ContentView: View {
             .navigationTitle("Moonshot")
             .background(.darkBackground)
             .preferredColorScheme(.dark)
+            .navigationDestination(for: Mission.self) { selectedMission in
+                MissionView(mission: selectedMission, astronauts: astronauts)
+            }
             .toolbar {
                 Button {
                     withAnimation() {
@@ -58,9 +61,7 @@ struct MissionGridView: View {
     var body: some View {
         LazyVGrid(columns: adaptiveColumnsLayout) {
             ForEach(missions) { mission in
-                NavigationLink {
-                    MissionView(mission: mission, astronauts: astronauts)
-                } label: {
+                NavigationLink(value: mission) {
                     VStack {
                         Image(mission.imageName)
                             .resizable()
@@ -100,9 +101,7 @@ struct MissionListView: View {
     var body: some View {
         VStack(spacing: 15) {
             ForEach(missions) { mission in
-                NavigationLink {
-                    MissionView(mission: mission, astronauts: astronauts)
-                } label: {
+                NavigationLink(value: mission) {
                     HStack {
                         Image(mission.imageName)
                             .resizable()
