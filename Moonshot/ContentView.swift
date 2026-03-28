@@ -45,6 +45,7 @@ struct ContentView: View {
                             .transition(.scale)
                     }
                 }
+                .accessibilityLabel(showingAsGrid ? "Switch to list layout." : "Switch to grid layout.")
             }
         }
     }
@@ -77,6 +78,7 @@ struct MissionGridView: View {
                             Text(mission.formattedLaunchDate)
                                 .font(.caption)
                                 .foregroundStyle(.white.opacity(0.5))
+                                .accessibilityLabel(mission.launchDateAccessibilityLabel)
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -114,10 +116,12 @@ struct MissionListView: View {
                             Text(mission.displayName)
                                 .font(.headline)
                             Text(mission.formattedLaunchDate)
+                                .accessibilityLabel(mission.launchDateAccessibilityLabel)
                             Text(mission.description)
                                 .foregroundStyle(.white.opacity(0.5))
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(3)
+                                .accessibilityLabel("Double tap to read more.")
                         }
                         .frame(maxWidth: .infinity)
                         .padding()

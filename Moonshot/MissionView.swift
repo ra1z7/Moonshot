@@ -20,7 +20,7 @@ struct MissionView: View {
     var body: some View {
         ScrollView {
             VStack {
-                Image(mission.imageName)
+                Image(decorative: mission.imageName)
                     .resizable()
                     .scaledToFit()
                     .containerRelativeFrame(.horizontal) { parentContainerWidth, _ in
@@ -36,6 +36,8 @@ struct MissionView: View {
                 .font(.headline.monospaced())
                 .foregroundStyle(.white.opacity(0.5))
                 .padding(.top)
+                .accessibilityElement()
+                .accessibilityLabel(mission.launchDateAccessibilityLabel)
                 
 //                Divider() // not customizable, so custom divider:
                 CustomDivider()
